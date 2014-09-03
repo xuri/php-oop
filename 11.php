@@ -78,4 +78,22 @@
 	class FileException extends Exception{}
 
 	class ConfException extends Exception{}
+
+	class Runner{
+		static function init(){
+			try{
+				$conf = new Conf( diirname(__FILE__)."/conf01.xml");
+				print "user: ".$conf->get('user')."\n";
+				print "host: ".$conf->get('host')."\n";
+				$conf->set("pass", "newpass");
+				$conf->write();
+			} catch (FileException $e){
+
+			} catch (XmlException $e){
+
+			} catch (Exception $e){
+
+			}
+		}
+	}
 ?>
