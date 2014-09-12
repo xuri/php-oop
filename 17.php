@@ -3,7 +3,7 @@
 		public $name;
 		public $price;
 
-		function __constract($name, $price) {
+		function __construct($name, $price) {
 			$this->name = $name;
 			$this->price = $price;
 		}
@@ -21,9 +21,27 @@
 
 		function sale ( $product ) {
 			print "{$product->name}: producessing \n";
-			foreach ($this->callback as $callback ) {
+			foreach ($this->callbacks as $callback ) {
 				call_user_func( $callback, $product );
 			}
 		}
 	}
+
+	$logger = create_function('$product', 'print " logging ({$product->name})\n";');
+	$processor = new ProcessSale();
+	$processor->registerCallback($logger);
+	$processor->sale( new Product("shoes", 6));
+	print "\n";
+	$processor->sale( new Product("coffee", 6));
+
+	$logger2 = function($product) {
+		print "		logging ({$product->name})\n";
+	};
+
+	$processor = new ProcessSale();
+	$processor->registerCallback($logger2);
+
+	$processor->sale( new Product("shoes", 6));
+	print "\n";
+	$processor->sale( new Product( "coffee", 6));
 ?>
